@@ -4,6 +4,7 @@ import com.chinawiserv.admin.config.security.service.JwtUserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -30,12 +31,15 @@ public class CustomerAuthenticationProvider implements AuthenticationProvider {
             log.info("服务器上保存的该用户对应的权限是：" + userDetails.getAuthorities());
             //判断用户输入的密码和服务器上已经保存的密码是否一致
             if (authentication.getCredentials().equals(userDetails.getPassword())) {
-                log.info("author success");
+                log.info("认证成功!");
                 //如果验证通过，将返回一个UsernamePasswordAuthenticaionToken对象
                 return new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), userDetails.getAuthorities());
+            }else{
+                log.warn("认证失败, 密码输入不正确!");
+                new BadCredentialsException("认证失败, 密码输入不正确!");
             }
         } catch (Exception e) {
-            log.error("author failed, the error message is: " + e);
+            log.error("认证失败, error message is: " , e);
             throw e;
         }
         //如果验证不通过将抛出异常或者返回null

@@ -30,7 +30,7 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
                 || matchers("/js/**", request)
                 || matchers("/css/**", request)
                 || matchers("/fonts/**", request)
-                || matchers("/", request)
+                || matchers("/api/", request)
                 || matchers("/index.html", request)
                 || matchers("/favicon.ico", request)
                 || matchers("/api/login/**", request)) {
@@ -43,7 +43,7 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
                     method = urlGrantedAuthority.getMethod();
                     if (matchers(url, request)) {
                         if (method.equals(request.getMethod()) || "ALL".equals(method)) {
-                            return;
+                                return;
                         }
                     }
                 }

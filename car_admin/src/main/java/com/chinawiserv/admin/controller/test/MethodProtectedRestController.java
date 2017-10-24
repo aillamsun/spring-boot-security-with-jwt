@@ -14,7 +14,6 @@ public class MethodProtectedRestController {
      * ADMIN 角色
      **/
     @RequestMapping(method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getProtectedGreeting() {
         return ResponseEntity.ok("来自管理员的请求响应成功!");
     }

@@ -18,6 +18,6 @@ public class UrlGrantedAuthority implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return this.permissionUrl + ";" + this.method;
+        return this.name + ";" + this.permissionUrl + ";" + this.method;
     }
 }
