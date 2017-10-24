@@ -132,9 +132,9 @@ INSERT INTO `sys_user_role` VALUES ('1', '1', '1'), ('2', '2', '2'), ('3', '3', 
 ![Markdown](http://i1.bvimg.com/607995/b191b76c72751e7b.jpg)
 
 
-### 效果图2
-![Markdown](http://i2.bvimg.com/607995/665f5fe027815230.jpg)
+### 效果图2 测试用户模块 user_all & 123456 >> [用户模块最大权限]
+![Markdown](http://i4.bvimg.com/607995/8a351934c93e7bb8.jpg)
 
 
-### 效果图3
-![Markdown](http://i2.bvimg.com/607995/665f5fe027815230.jpg)
+### 效果图3 测试用户模块 user_a_g & 123456 >> [用户添加查询权限]
+![Markdown](http://i4.bvimg.com/607995/3d0a3c7635a71b04.jpg)
