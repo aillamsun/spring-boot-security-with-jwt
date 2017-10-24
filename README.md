@@ -7,7 +7,7 @@
 
 通用技术选型：
 
-    springboot脚手架，集成mybatis freemarker security为一体,使用mybatis 通用分页pagehelper. 通用Mapper.
+    springboot脚手架，集成mybatis security为一体,使用mybatis 通用分页pagehelper. 通用Mapper.
 
 描述: 
 
