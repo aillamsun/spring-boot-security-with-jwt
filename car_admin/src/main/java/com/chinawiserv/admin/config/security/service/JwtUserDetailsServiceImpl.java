@@ -31,17 +31,6 @@ public class JwtUserDetailsServiceImpl extends BaseService<User> implements User
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            /**
-             * 所有权限
-             */
-//            List<Permission> permissions = user.getAuthorities();
-//            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//            for (Permission permission : permissions) {
-//                if (permission != null && permission.getName()!=null) {
-//                    GrantedAuthority grantedAuthority = new UrlGrantedAuthority(permission.getPermissionUrl(),permission.getMethod());
-//                    grantedAuthorities.add(grantedAuthority);
-//                }
-//            }
             JwtUser userDetail =  JwtUserFactory.create(user);
             return userDetail;
         }
