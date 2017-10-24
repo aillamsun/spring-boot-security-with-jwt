@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinawiserv.admin.mapper.UserMapper">
+
+
+    <resultMap id="selectUserAndAuthoritiesMap" type="com.chinawiserv.admin.model.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="last_password_reset_date" property="lastPasswordResetDate" jdbcType="TIMESTAMP"/>
+
+
+        <collection property="authorities" ofType="permission">
+            <result column="a_name" property="name" jdbcType="VARCHAR"/>
+            <result column="permission_url" property="permissionUrl" jdbcType="VARCHAR"/>
+            <result column="method" property="method" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectUserAndAuthorities" parameterType="map" resultMap="selectUserAndAuthoritiesMap">
+        SELECT
+            p. NAME AS a_name ,
+            p. permission_url AS permission_url ,
+            p. method AS method ,
+            p. NAME AS a_name ,
+            u.*
+        FROM
+            sys_user u
+        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN sys_role_permission rp ON rp.role_id = ur.role_id
+        LEFT JOIN sys_permission p ON p.id = rp.permission_id
+        WHERE
+            1 = 1
+        AND u.username = #{userName}
+  </select>
+</mapper>

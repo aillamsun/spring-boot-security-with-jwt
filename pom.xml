@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.chinawiserv</groupId>
+	<artifactId>spring-boot-security-with-jwt</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<modules>
+		<module>car_core</module>
+		<module>car_admin</module>
+		<module>car_utils</module>
+	</modules>
+	<packaging>pom</packaging>
+
+	<name>spring-boot-security-with-jwt</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+
+
+		<spring.boot.version>1.5.1.RELEASE</spring.boot.version>
+		<spring.boot.admin>1.4.6</spring.boot.admin>
+		<!--Camden.RELEASE  对应 Spring Boot 1.4.x-->
+		<!--<spring.cloud.version>Camden.RELEASE</spring.cloud.version>-->
+
+		<!--<hystrix-dashboard.version>1.5.5</hystrix-dashboard.version>-->
+
+		<mybatis.version>3.3.1</mybatis.version>
+		<mapper.version>3.3.9</mapper.version>
+		<pagehelper.version>4.1.6</pagehelper.version>
+
+		<mybatis.spring.version>1.2.4</mybatis.spring.version>
+		<mysql.version>5.1.39</mysql.version>
+		<druid.version>1.0.29</druid.version>
+
+		<logback.version>1.1.7</logback.version>
+		<slf4j.version>1.7.5</slf4j.version>
+
+
+		<apache.fileupload.version>1.3.1</apache.fileupload.version>
+		<!--工具-->
+		<guava.version>18.0</guava.version>
+		<joda.version>2.9.4</joda.version>
+		<apache.common.lang3.version>3.5</apache.common.lang3.version>
+		<apache.common.logging.version>1.2</apache.common.logging.version>
+		<apache.common.fileupload.version>1.3.1</apache.common.fileupload.version>
+		<apache.common.codec.version>1.10</apache.common.codec.version>
+		<springfox.version>2.5.0</springfox.version>
+		<easy.poi.version>2.3.1</easy.poi.version>
+		<weixin-java-mp.version>2.8.0</weixin-java-mp.version>
+		<lombok.version>1.16.8</lombok.version>
+		<kaptcha.version>2.3.2</kaptcha.version>
+
+		<jjwt.version>0.7.0</jjwt.version>
+
+
+	</properties>
+
+
+
+
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Import dependency management from Spring Boot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!--工具-->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.common.lang3.version}</version>
+			</dependency>
+			<!--JSON-->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.12</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${apache.common.codec.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.penggle</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>${kaptcha.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<!--Skip Test True-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+			<!--Maven的清洁插件默认情况下，将删除目标目录�?-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+
+
+			<!--  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<delimiters>
+						<delimiter>@</delimiter>
+					</delimiters>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.2</version>
+
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
