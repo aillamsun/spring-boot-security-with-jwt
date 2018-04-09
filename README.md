@@ -27,7 +27,91 @@
 ### 导入sql脚本
 
 ```mysql
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : localhost
+ Source Server Type    : MySQL
+ Source Server Version : 50717
+ Source Host           : localhost
+ Source Database       : skcar
+
+ Target Server Type    : MySQL
+ Target Server Version : 50717
+ File Encoding         : utf-8
+
+ Date: 04/09/2018 10:22:18 AM
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `sys_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE `sys_permission` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `pid` bigint(20) DEFAULT NULL,
+  `method` varchar(50) DEFAULT NULL COMMENT '请求方法',
+  `permission_url` varchar(255) DEFAULT NULL COMMENT '授权链接',
+  `description` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
+
+-- ----------------------------
+--  Records of `sys_permission`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_permission` VALUES ('1', 'ADMIN', null, 'ALL', '/api/**', '项目最大权限', '2017-10-24 15:49:04'), ('2', 'USER_ALL', null, 'ALL', '/api/user/**', '用户所有权限', '2017-10-24 15:49:01'), ('3', 'USER_GET', null, 'GET', '/api/user/**', '获取单个用户', '2017-10-24 14:44:24'), ('4', 'USER_PUT', null, 'PUT', '/api/user/**', '修改用户', '2017-10-24 14:45:22'), ('5', 'USER_ADD', null, 'POST', '/api/user/**', '添加用户', '2017-10-24 14:46:03'), ('6', 'USER_ DELETE', null, 'DELETE', '/api/user/**', '删除用户', '2017-10-24 15:49:46');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `sys_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL COMMENT '角色名称',
+  `role` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `is_all` int(11) DEFAULT '0' COMMENT '是否是全选 0 否 1 是',
+  `create_time` datetime DEFAULT NULL,
+  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建人id',
+  `status` int(45) DEFAULT NULL COMMENT '0 不可用 1 可用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色表';
+
+-- ----------------------------
+--  Records of `sys_role`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_role` VALUES ('1', 'Admin', 'admin', 'admin', '1', '2017-10-24 11:30:03', '1', '1'), ('2', 'User_All', 'User_All', '用户所有权限', '1', '2017-10-24 11:30:19', '1', '1'), ('3', 'User_A_G', 'User_A_G', '用户添加查询权限', '1', '2017-10-24 16:27:24', '1', '1'), ('4', 'User_A_U_G', 'User_A_U_G', '用户添加修改查询权限', '1', '2017-10-24 17:20:05', '1', '1');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `sys_role_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE `sys_role_permission` (
+  `id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+-- ----------------------------
+--  Records of `sys_role_permission`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_role_permission` VALUES ('1', '1', '1'), ('2', '2', '2'), ('3', '3', '3'), ('4', '4', '4'), ('5', '4', '5'), ('6', '3', '5'), ('7', '4', '3');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `sys_user`
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -50,68 +134,16 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+-- ----------------------------
+--  Records of `sys_user`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_user` VALUES ('1', 'admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', null, null, null, null, '13076061657', '1', '1', null, null, '2017-10-24 11:31:12', '1', '1', null, '2017-10-24 12:59:14'), ('2', 'user_all', 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=', null, null, null, null, '307071768', '1', '1', null, null, '2017-10-24 11:32:12', '1', '1', null, '2017-10-24 12:59:17'), ('3', 'disabled', 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=', null, null, null, null, '111', '1', '1', null, null, '2017-10-24 11:32:46', '1', '0', null, '2017-10-24 12:59:21'), ('5', 'user_a_g', 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=', null, null, null, null, '1', '1', '1', null, null, '2017-10-24 16:24:58', null, '1', null, null), ('6', 'user_a_u_g', 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=', null, null, null, null, '1', '1', '1', null, null, '2017-10-24 16:25:27', null, '1', null, null);
+COMMIT;
 
-
-INSERT INTO `sys_user` VALUES ('1', 'admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', null, null, null, null, '13076061657', '1', '1', null, null, '2017-10-24 11:31:12', '1', '1', null, '2017-10-24 12:59:14'), ('2', 'user_all', '$2a$10$HjoWoNdG23N1XjHh720idePurSbrUA.pAcDfGGyDbI5KgsGgvuvPi', null, null, null, null, '307071768', '1', '1', null, null, '2017-10-24 11:32:12', '1', '1', null, '2017-10-24 12:59:17'), ('3', 'disabled', '$2a$10$ZgTe2Owsh9NPWJOnADJkeOPWT7dyX/7M64QhW6zqXdSNEGtv3W/Rm', null, null, null, null, '111', '1', '1', null, null, '2017-10-24 11:32:46', '1', '0', null, '2017-10-24 12:59:21'), ('5', 'user_a_g', '$2a$10$HjoWoNdG23N1XjHh720idePurSbrUA.pAcDfGGyDbI5KgsGgvuvPi', null, null, null, null, '1', '1', '1', null, null, '2017-10-24 16:24:58', null, '1', null, null), ('6', 'user_a_u_g', '$2a$10$HjoWoNdG23N1XjHh720idePurSbrUA.pAcDfGGyDbI5KgsGgvuvPi', null, null, null, null, '1', '1', '1', null, null, '2017-10-24 16:25:27', null, '1', null, null);
-
-
-
-
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL COMMENT '角色名称',
-  `role` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `is_all` int(11) DEFAULT '0' COMMENT '是否是全选 0 否 1 是',
-  `create_time` datetime DEFAULT NULL,
-  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建人id',
-  `status` int(45) DEFAULT NULL COMMENT '0 不可用 1 可用',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色表';
-
-
-
-INSERT INTO `sys_role` VALUES ('1', 'Admin', 'admin', 'admin', '1', '2017-10-24 11:30:03', '1', '1'), ('2', 'User_All', 'User_All', '用户所有权限', '1', '2017-10-24 11:30:19', '1', '1'), ('3', 'User_A_G', 'User_A_G', '用户添加查询权限', '1', '2017-10-24 16:27:24', '1', '1'), ('4', 'User_A_U_G', 'User_A_U_G', '用户添加修改查询权限', '1', '2017-10-24 17:20:05', '1', '1');
-
-
-
-
-DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `pid` bigint(20) DEFAULT NULL,
-  `method` varchar(50) DEFAULT NULL COMMENT '请求方法',
-  `permission_url` varchar(255) DEFAULT NULL COMMENT '授权链接',
-  `description` varchar(255) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
-
-
-
-INSERT INTO `sys_permission` VALUES ('1', 'ADMIN', null, 'ALL', '/api/**', '项目最大权限', '2017-10-24 15:49:04'), ('2', 'USER_ALL', null, 'ALL', '/api/user/**', '用户所有权限', '2017-10-24 15:49:01'), ('3', 'USER_GET', null, 'GET', '/api/user/**', '获取单个用户', '2017-10-24 14:44:24'), ('4', 'USER_PUT', null, 'PUT', '/api/user/**', '修改用户', '2017-10-24 14:45:22'), ('5', 'USER_ADD', null, 'POST', '/api/user/**', '添加用户', '2017-10-24 14:46:03'), ('6', 'USER_ DELETE', null, 'DELETE', '/api/user/**', '删除用户', '2017-10-24 15:49:46');
-
-
-
-
-
-DROP TABLE IF EXISTS `sys_role_permission`;
-CREATE TABLE `sys_role_permission` (
-  `id` bigint(20) NOT NULL,
-  `role_id` bigint(20) NOT NULL,
-  `permission_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
-
-INSERT INTO `sys_role_permission` VALUES ('1', '1', '1'), ('2', '2', '2'), ('3', '3', '3'), ('4', '4', '4'), ('5', '4', '5'), ('6', '3', '5'), ('7', '4', '3');
-
-
-
-
-
+-- ----------------------------
+--  Table structure for `sys_user_role`
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
   `id` bigint(20) NOT NULL,
@@ -120,8 +152,14 @@ CREATE TABLE `sys_user_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户角色表';
 
-
+-- ----------------------------
+--  Records of `sys_user_role`
+-- ----------------------------
+BEGIN;
 INSERT INTO `sys_user_role` VALUES ('1', '1', '1'), ('2', '2', '2'), ('3', '3', '2'), ('4', '5', '3'), ('5', '6', '4');
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 ```
 
