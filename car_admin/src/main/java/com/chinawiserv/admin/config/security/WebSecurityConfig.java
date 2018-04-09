@@ -1,5 +1,6 @@
 package com.chinawiserv.admin.config.security;
 
+import com.chinawiserv.utils.encryption.EncryptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +43,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
 
+//    @Autowired
+//    public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+//                auth.authenticationProvider(authProvider)
+//                // 设置UserDetailsService
+//                .userDetailsService(this.userDetailsService)
+//                // 使用BCrypt进行密码的hash
+//                .passwordEncoder(passwordEncoder());
+//
+//    }
+
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-                auth.authenticationProvider(authProvider)
+        auth/*.authenticationProvider(authenticationProvider)*/
                 // 设置UserDetailsService
                 .userDetailsService(this.userDetailsService)
                 // 使用BCrypt进行密码的hash
@@ -52,15 +63,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
     // 装载BCrypt密码编码器
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
+    // 装载 密码编码器
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return EncryptionHelper.encrypt((String) rawPassword);
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encodedPassword.equals(EncryptionHelper.encrypt((String) rawPassword));
+            }
+        };
     }
 
-    @Bean
-    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        return new JwtAuthenticationTokenFilter();
-    }
+//    @Bean
+//    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+//        return new JwtAuthenticationTokenFilter();
+//    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -94,5 +121,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 禁用缓存
         httpSecurity.headers().cacheControl();
+    }
+
+
+    @Bean
+    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+        return new JwtAuthenticationTokenFilter();
     }
 }

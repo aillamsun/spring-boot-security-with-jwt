@@ -7,6 +7,7 @@ import com.chinawiserv.admin.model.User;
 import com.chinawiserv.core.service.BaseService;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,8 +24,14 @@ public class JwtUserDetailsServiceImpl extends BaseService<User> implements User
     @Autowired
     private UserMapper userMapper;
 
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+
         Map<String, Object> params = Maps.newHashMap();
         params.put("userName", username);
         User user = userMapper.selectUserAndAuthorities(params);

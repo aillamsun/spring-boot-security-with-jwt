@@ -15,6 +15,7 @@ import com.chinawiserv.core.response.ResultGenerator;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,8 +43,6 @@ public class AuthenticationController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -54,6 +53,9 @@ public class AuthenticationController {
     private UserRoleMapper userRoleMapper;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -97,12 +99,12 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @PostMapping
     public ResultBody createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
-
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
+
         // Return the token
         JSONObject res = new JSONObject();
         res.put("access_token",token);
